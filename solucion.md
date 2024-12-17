@@ -107,6 +107,7 @@ ser directamente asignado a uno o diversos grupos?
 
 ### **Código en R**  
 ```
+#cargamos la librerias que vamos a usar
 library(readr)
 library(stringr)
 
@@ -115,7 +116,7 @@ dataset <- read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
   na = c("", "NA", "NULL"),   
-  col_types = cols(
+  col_types = cols( #decimos la columna que tipo de valor debe usar
     X1 = col_character(), # Columna 1 como texto
     X2 = col_character(), # Columna 2 como texto
     X3 = col_character(), # Columna 3 como texto
@@ -125,6 +126,7 @@ dataset <- read_table(
     X7 = col_integer()  # Columna 7 como texto
   )
 )
+#colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
 # Cambiar nombres de las columnas
@@ -136,11 +138,13 @@ n_columnas <- ncol(dataset)
 
 dimensiones <- dim(dataset)
 media_bytes <- mean(dataset$bytes, na.rm = TRUE)
-cat("prueba de media :", media_bytes)
-cat("dimension del data set",dimensiones)
+
+#aqui usamos dos formas de como obtener las dimensiones de un dataset 
+cat("dimensión del data set",dimensiones, "\n")
 cat("Número de filas:", n_filas, "\n")
 cat("Número de columnas:", n_columnas, "\n")
-cat("Valor medio de la columna 'Size':", media_bytes, "\n")
+cat("Valor medio de la columna 'bytes':", media_bytes, "\n")
+
 
 ```
 
