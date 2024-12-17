@@ -56,8 +56,12 @@ Dado un registro de peticiones a un sitio web, vemos que las peticiones que prov
 - ¿Podemos determinar si en el futuro, los próximos mensajes de esa red seguirán dando problemas?\
 - ¿Hemos notado el mismo efecto en otras redes de telefonía?
 
-**Clasificación:**\
-**Predictiva**
+**Clasificación:**\ 
+**Predictiva**  
+
+**Justificación:**\  
+La pregunta busca predecir si futuros mensajes de una red específica seguirán generando errores y determinar si el patrón se repite en otras redes, basándose en datos históricos.
+
 
 **Justificación:**\
 La pregunta busca predecir si futuros mensajes de una red específica seguirán generando errores y determinar si el patrón se repite en otras redes, basándose en datos históricos.
@@ -75,3 +79,7 @@ Dado los registros de usuarios de un servicio de compras por internet, los usuar
 
 **Justificación:**\
 La pregunta busca generalizar un patrón del conjunto de datos existente para asignar un usuario nuevo a un grupo, utilizando su historial de compras.
+
+```{r}
+a <- 1 + 2
+```
