@@ -39,11 +39,42 @@ total_paginas_edu <- nrow(data_edu)
 
 # Obtener cantidad de bytes transmitidos como .txt en las paginas .edu Pregunta 4
 
+# Función para determinar la hora con mayor volumen de peticiones "GET"
+hora_mayor_volumen_get <- function(dataset) {
+  
+  
+  # Filtrar solo las peticiones de tipo "GET"
+  peticiones_get <- dataset %>% 
+    filter(Metodo == "GET")
+  
+  # Extraer la hora de la columna Hora (formato [HH:MM:SS])
+  peticiones_get$Hora <- str_sub(peticiones_get$Hora, 5, 6)
+  
+  # Contar la cantidad de peticiones por hora
+  conteo_horas <- peticiones_get %>%
+    group_by(Hora) %>%
+    summarise(Volumen = n()) %>%
+    arrange(desc(Volumen)) %>%
+    slice(1)  # Selecciona el primer registro, que es el de mayor volumen
+  
+  # Devolver solo el registro con la hora y el volumen correspondiente
+  return(conteo_horas)
+  
+  
+}
+
+hora<-hora_mayor_volumen_get(dataset)
+
+
+
+
 #aqui usamos dos formas de como obtener las dimensiones de un dataset 
 cat("dimensión del data set",dimensiones, "\n")
 cat("Número de filas:", n_filas, "\n")
 cat("Número de columnas:", n_columnas, "\n")
 cat("Valor medio de la columna 'bytes':", media_bytes, "\n")
+cat("La hora", hora$Hora, "es la hora que tiene mayor volumen. El volumen es", hora$Volumen, "\n")
+
 
 # Identificar las filas problemáticas, se comento despues de usarse
 #esto se uso para identifar errores que me salia en el dataset

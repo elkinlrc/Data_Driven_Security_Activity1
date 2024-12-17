@@ -111,7 +111,34 @@ data_edu <- dataset[grepl("\\.edu", dataset$site), ]
 total_paginas_edu <- nrow(data_edu)
 ```
 
+ejercicio 2
+```{r}
+# Función para determinar la hora con mayor volumen de peticiones "GET"
+hora_mayor_volumen_get <- function(dataset) {
+  
+  
+  # Filtrar solo las peticiones de tipo "GET"
+  peticiones_get <- dataset %>% 
+    filter(Metodo == "GET")
+  
+  # Extraer la hora de la columna Hora (formato [HH:MM:SS])
+  peticiones_get$Hora <- str_sub(peticiones_get$Hora, 5, 6)
+  
+  # Contar la cantidad de peticiones por hora
+  conteo_horas <- peticiones_get %>%
+    group_by(Hora) %>%
+    summarise(Volumen = n()) %>%
+    arrange(desc(Volumen)) %>%
+    slice(1)  # Selecciona el primer registro, que es el de mayor volumen
+  
+  # Devolver solo el registro con la hora y el volumen correspondiente
+  return(conteo_horas)
+  
+  
+}
 
+hora<-hora_mayor_volumen_get(dataset)
+```
 
 
 
