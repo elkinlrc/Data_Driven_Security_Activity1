@@ -429,6 +429,63 @@ ser directamente asignado a uno o diversos grupos?</p>
 <p><strong>Clasificación:</strong></p>
 <p><strong>Justificación:</strong></p>
 </div>
+<div id="introducción-a-r" class="section level3">
+<h3><strong>2. Introducción a R</strong></h3>
+<div id="cuáles-son-las-dimensiones-del-dataset-cargado" class="section level4">
+<h4>¿Cuáles son las dimensiones del dataset cargado?</h4>
+<ul>
+<li><strong>Número de filas</strong>: <code>47748</code><br />
+</li>
+<li><strong>Número de columnas</strong>: <code>7</code></li>
+</ul>
+</div>
+<div id="valor-medio-de-la-columna-bytes" class="section level4">
+<h4>Valor medio de la columna <strong>Bytes</strong></h4>
+<ul>
+<li>El peso medio de la columna <strong>Bytes</strong> es:
+<code>6531.45660551213</code></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="código-en-r" class="section level3">
+<h3><strong>Código en R</strong></h3>
+<pre><code>library(readr)
+library(stringr)
+
+# Leer el archivo CSV donde los separadores son espacios
+dataset &lt;- read_table(
+  &quot;epa-http.csv&quot;,
+  col_names = FALSE,  # Nombres genéricos de columna
+  na = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;),   
+  col_types = cols(
+    X1 = col_character(), # Columna 1 como texto
+    X2 = col_character(), # Columna 2 como texto
+    X3 = col_character(), # Columna 3 como texto
+    X4 = col_character(), # Columna 4 como texto
+    X5 = col_character(), # Columna 5 como texto
+    X6 = col_integer(),   # Columna 6 como entero
+    X7 = col_integer()  # Columna 7 como texto
+  )
+)
+dataset$X6[is.na(dataset$X6)] &lt;- 0
+dataset$X7[is.na(dataset$X7)] &lt;- 0
+# Cambiar nombres de las columnas
+colnames(dataset) &lt;- c(&quot;site&quot;, &quot;Hora&quot;, &quot;Metodo&quot;, &quot;Endpoint&quot;, &quot;Protocolo&quot;, &quot;Respuesta http&quot;, &quot;bytes&quot;)
+
+# Obtener el número de filas y columnas
+n_filas &lt;- nrow(dataset)
+n_columnas &lt;- ncol(dataset)
+
+dimensiones &lt;- dim(dataset)
+media_bytes &lt;- mean(dataset$bytes, na.rm = TRUE)
+cat(&quot;prueba de media :&quot;, media_bytes)
+cat(&quot;dimension del data set&quot;,dimensiones)
+cat(&quot;Número de filas:&quot;, n_filas, &quot;\n&quot;)
+cat(&quot;Número de columnas:&quot;, n_columnas, &quot;\n&quot;)
+cat(&quot;Valor medio de la columna &#39;Size&#39;:&quot;, media_bytes, &quot;\n&quot;)
+</code></pre>
+</div>
 </div>
 
 

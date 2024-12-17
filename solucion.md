@@ -1,12 +1,11 @@
 ---
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: 72
 ---
-__ Análisis de Datos y Resolución de Casos Prácticos en Data Driven
-Security __
 
-
+\_\_ Análisis de Datos y Resolución de Casos Prácticos en Data Driven
+Security \_\_
 
 ## Descripción
 
@@ -37,7 +36,7 @@ número de ruedas). Con tal de ajustar precios de los peajes:\
 - ¿De qué países tenemos más vehículos?
 
 **Clasificación:**\
-+ _Descriptiva_
++ *Descriptiva*
 
 **Justificación:**\
 En este ejercicio se están contando cosas para resultados estadísticos:
@@ -56,7 +55,7 @@ fecha de visualización y categoría de la película, queremos saber:\
 usuarios y su rango de edad?
 
 **Clasificación:**\
-_Exploratoria_
+*Exploratoria*
 
 **Justificación:**\
 EN este ejercicio busca identificar relaciones o patrones entre el rango
@@ -94,3 +93,54 @@ ser directamente asignado a uno o diversos grupos?
 **Clasificación:**
 
 **Justificación:**
+
+### **2. Introducción a R**
+
+#### ¿Cuáles son las dimensiones del dataset cargado?  
+- **Número de filas**: `47748`  
+- **Número de columnas**: `7`  
+
+#### Valor medio de la columna **Bytes**  
+- El peso medio de la columna **Bytes** es: `6531.45660551213`  
+
+---
+
+### **Código en R**  
+```
+library(readr)
+library(stringr)
+
+# Leer el archivo CSV donde los separadores son espacios
+dataset <- read_table(
+  "epa-http.csv",
+  col_names = FALSE,  # Nombres genéricos de columna
+  na = c("", "NA", "NULL"),   
+  col_types = cols(
+    X1 = col_character(), # Columna 1 como texto
+    X2 = col_character(), # Columna 2 como texto
+    X3 = col_character(), # Columna 3 como texto
+    X4 = col_character(), # Columna 4 como texto
+    X5 = col_character(), # Columna 5 como texto
+    X6 = col_integer(),   # Columna 6 como entero
+    X7 = col_integer()  # Columna 7 como texto
+  )
+)
+dataset$X6[is.na(dataset$X6)] <- 0
+dataset$X7[is.na(dataset$X7)] <- 0
+# Cambiar nombres de las columnas
+colnames(dataset) <- c("site", "Hora", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
+
+# Obtener el número de filas y columnas
+n_filas <- nrow(dataset)
+n_columnas <- ncol(dataset)
+
+dimensiones <- dim(dataset)
+media_bytes <- mean(dataset$bytes, na.rm = TRUE)
+cat("prueba de media :", media_bytes)
+cat("dimension del data set",dimensiones)
+cat("Número de filas:", n_filas, "\n")
+cat("Número de columnas:", n_columnas, "\n")
+cat("Valor medio de la columna 'Size':", media_bytes, "\n")
+
+```
+
