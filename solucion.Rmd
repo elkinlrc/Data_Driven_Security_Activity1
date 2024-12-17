@@ -103,12 +103,18 @@ dataset$X7[is.na(dataset$X7)] <- 0
 # Cambiar nombres de las columnas
 colnames(dataset) <- c("site", "Hora", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
 
-#Codigo pregunta 2 Cantidad de ips o filas con 
+#Codigo pregunta 2 Cantidad de ips o filas con .edu
 # Obtener todos los IP educativos .edu 
 data_edu <- dataset[grepl("\\.edu", dataset$site), ]
-
 # Contar la cantidad de filas (páginas .edu)
 total_paginas_edu <- nrow(data_edu)
+
+#Codigo pregunta 4 Cantidad de bytes transmitidos en .edu de archivos .txt
+# Obtener las filas transmitidos como .txt en las paginas .edu 
+data_txt_edu <- dataset[grepl("\\.edu", dataset$site) & grepl("\\.txt$", dataset$Endpoint), ]
+# Calcular la suma de la columna 'bytes'
+total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
+
 ```
 
 

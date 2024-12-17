@@ -30,14 +30,18 @@ n_columnas <- ncol(dataset)
 dimensiones <- dim(dataset)
 media_bytes <- mean(dataset$bytes, na.rm = TRUE)
 
-# Obtener todos los IP educativos .edu Pregunta 2
+#--------------Pregunta 2-----------------
+# Obtener todos los IP educativos .edu 
 data_edu <- dataset[grepl("\\.edu", dataset$site), ]
-
 # Contar la cantidad de filas (páginas .edu)
 total_paginas_edu <- nrow(data_edu)
 
+#--------------Pregunta 4-----------------
+# Obtener las filas transmitidos como .txt en las paginas .edu 
+data_txt_edu <- dataset[grepl("\\.edu", dataset$site) & grepl("\\.txt$", dataset$Endpoint), ]
+# Calcular la suma de la columna 'bytes'
+total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
 
-# Obtener cantidad de bytes transmitidos como .txt en las paginas .edu Pregunta 4
 
 #aqui usamos dos formas de como obtener las dimensiones de un dataset 
 cat("dimensión del data set",dimensiones, "\n")
