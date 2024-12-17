@@ -78,5 +78,42 @@ Dado los registros de usuarios de un servicio de compras por internet, los usuar
 Ésta pregunta busca generalizar un patrón del conjunto de datos existente para asignar un usuario nuevo a un grupo, utilizando su historial de compras. Se trata de inferir en la clasificación del usuario.
 
 ```{r}
-a <- 1 + 2
+#cargamos la librerias que vamos a usar
+library(readr)
+library(stringr)
+
+# Leer el archivo CSV donde los separadores son espacios
+dataset <- read_table(
+  "epa-http.csv",
+  col_names = FALSE,  # Nombres genéricos de columna
+  na = c("", "NA", "NULL"),   
+  col_types = cols( #decimos la columna que tipo de valor debe usar
+    X1 = col_character(), # Columna 1 como texto
+    X2 = col_character(), # Columna 2 como texto
+    X3 = col_character(), # Columna 3 como texto
+    X4 = col_character(), # Columna 4 como texto
+    X5 = col_character(), # Columna 5 como texto
+    X6 = col_integer(),   # Columna 6 como entero
+    X7 = col_integer()  # Columna 7 como texto
+  )
+)
+#colocamos valores por defecto a campos vacios 
+dataset$X6[is.na(dataset$X6)] <- 0
+dataset$X7[is.na(dataset$X7)] <- 0
+# Cambiar nombres de las columnas
+colnames(dataset) <- c("site", "Hora", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
+
+#Codigo pregunta 2 Cantidad de ips o filas con 
+# Obtener todos los IP educativos .edu 
+data_edu <- dataset[grepl("\\.edu", dataset$site), ]
+
+# Contar la cantidad de filas (páginas .edu)
+total_paginas_edu <- nrow(data_edu)
 ```
+
+
+
+
+
+
+
