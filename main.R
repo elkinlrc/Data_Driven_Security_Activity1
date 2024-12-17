@@ -1,6 +1,7 @@
 #cargamos la librerias que vamos a usar
 library(readr)
 library(stringr)
+library(dplyr)
 
 # Leer el archivo CSV donde los separadores son espacios
 dataset <- read_table(
@@ -20,9 +21,11 @@ dataset <- read_table(
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
+
 # Cambiar nombres de las columnas
 colnames(dataset) <- c("site", "Hora", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
-
+#eliminar comillas doble
+dataset$Metodo <- str_replace_all(dataset$Metodo, '"', "") 
 # Obtener el número de filas y columnas
 n_filas <- nrow(dataset)
 n_columnas <- ncol(dataset)
@@ -30,17 +33,6 @@ n_columnas <- ncol(dataset)
 dimensiones <- dim(dataset)
 media_bytes <- mean(dataset$bytes, na.rm = TRUE)
 
-#--------------Pregunta 2-----------------
-# Obtener todos los IP educativos .edu 
-data_edu <- dataset[grepl("\\.edu", dataset$site), ]
-# Contar la cantidad de filas (páginas .edu)
-total_paginas_edu <- nrow(data_edu)
-
-#--------------Pregunta 4-----------------
-# Obtener las filas transmitidos como .txt en las paginas .edu 
-data_txt_edu <- dataset[grepl("\\.edu", dataset$site) & grepl("\\.txt$", dataset$Endpoint), ]
-# Calcular la suma de la columna 'bytes'
-total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
 
 
 # Función para determinar la hora con mayor volumen de peticiones "GET"
@@ -64,12 +56,12 @@ hora_mayor_volumen_get <- function(dataset) {
   # Devolver solo el registro con la hora y el volumen correspondiente
   return(conteo_horas)
   
-  
+
 }
 
+
+# Llamada a la función con el dataset
 hora<-hora_mayor_volumen_get(dataset)
-
-
 
 
 #aqui usamos dos formas de como obtener las dimensiones de un dataset 
@@ -78,7 +70,6 @@ cat("Número de filas:", n_filas, "\n")
 cat("Número de columnas:", n_columnas, "\n")
 cat("Valor medio de la columna 'bytes':", media_bytes, "\n")
 cat("La hora", hora$Hora, "es la hora que tiene mayor volumen. El volumen es", hora$Volumen, "\n")
-
 
 # Identificar las filas problemáticas, se comento despues de usarse
 #esto se uso para identifar errores que me salia en el dataset
