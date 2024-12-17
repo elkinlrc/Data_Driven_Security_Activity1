@@ -60,11 +60,8 @@ Dado un registro de peticiones a un sitio web, vemos que las peticiones que prov
 **Predictiva**  
 
 **Justificación:**\  
-La pregunta busca predecir si futuros mensajes de una red específica seguirán generando errores y determinar si el patrón se repite en otras redes, basándose en datos históricos.
+Ésta pregunta busca predecir si futuros mensajes de una red específica seguirán generando errores y determinar si el patrón se repite en otras redes, basándose en datos históricos, por lo tanto, se trata una predicción.
 
-
-**Justificación:**\
-La pregunta busca predecir si futuros mensajes de una red específica seguirán generando errores y determinar si el patrón se repite en otras redes, basándose en datos históricos.
 
 ------------------------------------------------------------------------
 
@@ -78,7 +75,7 @@ Dado los registros de usuarios de un servicio de compras por internet, los usuar
 **Inferencial**
 
 **Justificación:**\
-La pregunta busca generalizar un patrón del conjunto de datos existente para asignar un usuario nuevo a un grupo, utilizando su historial de compras.
+Ésta pregunta busca generalizar un patrón del conjunto de datos existente para asignar un usuario nuevo a un grupo, utilizando su historial de compras. Se trata de inferir en la clasificación del usuario.
 
 ```{r}
 a <- 1 + 2
