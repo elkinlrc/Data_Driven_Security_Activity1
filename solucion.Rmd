@@ -85,7 +85,7 @@ library(readr)
 library(stringr)
 
 # Leer el archivo CSV donde los separadores son espacios
-dataset <- read_table(
+dataset <-  suppressWarnings(read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
   na = c("", "NA", "NULL"),   
@@ -98,7 +98,7 @@ dataset <- read_table(
     X6 = col_integer(),   # Columna 6 como entero
     X7 = col_integer()  # Columna 7 como texto
   )
-)
+))
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
@@ -123,7 +123,7 @@ library(readr)
 library(stringr)
 
 # Leer el archivo CSV donde los separadores son espacios
-dataset <- read_table(
+dataset <-  suppressWarnings(read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
   na = c("", "NA", "NULL"),   
@@ -136,7 +136,7 @@ dataset <- read_table(
     X6 = col_integer(),   # Columna 6 como entero
     X7 = col_integer()  # Columna 7 como texto
   )
-)
+))
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
@@ -157,14 +157,14 @@ total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
 
 ```
 ejercicio 3
-```{r}
+```{r setup2, message=FALSE, warning=FALSE}
 #cargamos la librerias que vamos a usar
 library(readr)
 library(stringr)
 library(dplyr)
 
 # Leer el archivo CSV donde los separadores son espacios
-dataset <- read_table(
+dataset <-  suppressWarnings(read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
   na = c("", "NA", "NULL"),   
@@ -177,7 +177,7 @@ dataset <- read_table(
     X6 = col_integer(),   # Columna 6 como entero
     X7 = col_integer()  # Columna 7 como texto
   )
-)
+))
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0

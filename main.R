@@ -4,9 +4,10 @@ library(stringr)
 library(dplyr)
 
 # Leer el archivo CSV donde los separadores son espacios
-dataset <- read_table(
+dataset <-  suppressWarnings(read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
+  locale = locale(encoding = "UTF-8"),
   na = c("", "NA", "NULL"),   
   col_types = cols( #decimos la columna que tipo de valor debe usar
     X1 = col_character(), # Columna 1 como texto
@@ -15,9 +16,10 @@ dataset <- read_table(
     X4 = col_character(), # Columna 4 como texto
     X5 = col_character(), # Columna 5 como texto
     X6 = col_integer(),   # Columna 6 como entero
-    X7 = col_integer()  # Columna 7 como texto
+    X7 = col_integer()    # Columna 7 como texto
   )
-)
+))
+
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
@@ -58,8 +60,6 @@ hora_mayor_volumen_get <- function(dataset) {
   
 
 }
-
-
 # Llamada a la función con el dataset
 hora<-hora_mayor_volumen_get(dataset)
 

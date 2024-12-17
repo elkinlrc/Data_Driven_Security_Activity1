@@ -104,7 +104,7 @@ library(readr)
 library(stringr)
 
 # Leer el archivo CSV donde los separadores son espacios
-dataset <- read_table(
+dataset <-  suppressWarnings(read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
   na = c("", "NA", "NULL"),   
@@ -117,20 +117,7 @@ dataset <- read_table(
     X6 = col_integer(),   # Columna 6 como entero
     X7 = col_integer()  # Columna 7 como texto
   )
-)
-```
-
-    ## Warning: 5331 parsing failures.
-    ## row col               expected actual           file
-    ##  11  X7 no trailing characters      - 'epa-http.csv'
-    ##  14  X7 no trailing characters      - 'epa-http.csv'
-    ##  20  X7 no trailing characters      - 'epa-http.csv'
-    ##  24  X7 no trailing characters      - 'epa-http.csv'
-    ##  36  X7 no trailing characters      - 'epa-http.csv'
-    ## ... ... ...................... ...... ..............
-    ## See problems(...) for more details.
-
-``` r
+))
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
@@ -154,7 +141,7 @@ library(readr)
 library(stringr)
 
 # Leer el archivo CSV donde los separadores son espacios
-dataset <- read_table(
+dataset <-  suppressWarnings(read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
   na = c("", "NA", "NULL"),   
@@ -167,20 +154,7 @@ dataset <- read_table(
     X6 = col_integer(),   # Columna 6 como entero
     X7 = col_integer()  # Columna 7 como texto
   )
-)
-```
-
-    ## Warning: 5331 parsing failures.
-    ## row col               expected actual           file
-    ##  11  X7 no trailing characters      - 'epa-http.csv'
-    ##  14  X7 no trailing characters      - 'epa-http.csv'
-    ##  20  X7 no trailing characters      - 'epa-http.csv'
-    ##  24  X7 no trailing characters      - 'epa-http.csv'
-    ##  36  X7 no trailing characters      - 'epa-http.csv'
-    ## ... ... ...................... ...... ..............
-    ## See problems(...) for more details.
-
-``` r
+))
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
@@ -207,22 +181,9 @@ ejercicio 3
 library(readr)
 library(stringr)
 library(dplyr)
-```
 
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 # Leer el archivo CSV donde los separadores son espacios
-dataset <- read_table(
+dataset <-  suppressWarnings(read_table(
   "epa-http.csv",
   col_names = FALSE,  # Nombres genéricos de columna
   na = c("", "NA", "NULL"),   
@@ -235,20 +196,7 @@ dataset <- read_table(
     X6 = col_integer(),   # Columna 6 como entero
     X7 = col_integer()  # Columna 7 como texto
   )
-)
-```
-
-    ## Warning: 5331 parsing failures.
-    ## row col               expected actual           file
-    ##  11  X7 no trailing characters      - 'epa-http.csv'
-    ##  14  X7 no trailing characters      - 'epa-http.csv'
-    ##  20  X7 no trailing characters      - 'epa-http.csv'
-    ##  24  X7 no trailing characters      - 'epa-http.csv'
-    ##  36  X7 no trailing characters      - 'epa-http.csv'
-    ## ... ... ...................... ...... ..............
-    ## See problems(...) for more details.
-
-``` r
+))
 #colocamos valores por defecto a campos vacios 
 dataset$X6[is.na(dataset$X6)] <- 0
 dataset$X7[is.na(dataset$X7)] <- 0
