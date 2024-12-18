@@ -12,7 +12,7 @@ reproducible en RMarkdown, documentación y resultados renderizados.
 
 # Actividad Evaluable 1 - Data Driven Security
 
-### Clasificación de preguntas de Data Science
+## 1. Data Science
 
 A continuación, se clasifica cada pregunta según su tipo (descriptiva,
 exploratoria, inferencial, predictiva o causal) y se justifica
@@ -96,6 +96,8 @@ existente para asignar un usuario nuevo a un grupo, utilizando su
 historial de compras. Se trata de inferir en la clasificación del
 usuario.
 
+## 2. Introducción a R
+
 base para los ejercicios: se creo un archivo central que se encarga de
 de procesar el dataset para que en cada ejercicio no se repita codigo
 
@@ -137,7 +139,7 @@ procesar_dataset <- function() {
 }
 ```
 
-ejercicio 1
+### Ejercicio 1
 
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
@@ -159,33 +161,18 @@ dimensiones <- dim(dataset)
 media_bytes <- mean(dataset$bytes, na.rm = TRUE)
 ```
 
-ejercicio 2
+### Ejercicio 2
 
 ``` r
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+source("procesar_dataset.R")
+
 #cargamos la librerias que vamos a usar
 library(readr)
 library(stringr)
+library(dplyr)
 
-# Leer el archivo CSV donde los separadores son espacios
-dataset <-  suppressWarnings(read_table(
-  "epa-http.csv",
-  col_names = FALSE,  # Nombres genéricos de columna
-  na = c("", "NA", "NULL"),   
-  col_types = cols( #decimos la columna que tipo de valor debe usar
-    X1 = col_character(), # Columna 1 como texto
-    X2 = col_character(), # Columna 2 como texto
-    X3 = col_character(), # Columna 3 como texto
-    X4 = col_character(), # Columna 4 como texto
-    X5 = col_character(), # Columna 5 como texto
-    X6 = col_integer(),   # Columna 6 como entero
-    X7 = col_integer()  # Columna 7 como texto
-  )
-))
-#colocamos valores por defecto a campos vacios 
-dataset$X6[is.na(dataset$X6)] <- 0
-dataset$X7[is.na(dataset$X7)] <- 0
-# Cambiar nombres de las columnas
-colnames(dataset) <- c("site", "Hora", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
+dataset <- procesar_dataset()
 
 #Codigo pregunta 2 Cantidad de ips o filas con .edu
 # Obtener todos los IP educativos .edu 
@@ -200,7 +187,7 @@ data_txt_edu <- dataset[grepl("\\.edu", dataset$site) & grepl("\\.txt$", dataset
 total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
 ```
 
-ejercicio 3
+### Ejercicio 3
 
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
@@ -238,4 +225,56 @@ hora_mayor_volumen_get <- function(dataset) {
 }
 
 hora<-hora_mayor_volumen_get(dataset)
+```
+
+### Ejercicio 4
+
+``` r
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+source("procesar_dataset.R")
+
+#cargamos la librerias que vamos a usar
+library(readr)
+library(stringr)
+library(dplyr)
+
+dataset <- procesar_dataset()
+```
+
+### Ejercicio 5
+
+``` r
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+source("procesar_dataset.R")
+
+#cargamos la librerias que vamos a usar
+library(readr)
+library(stringr)
+library(dplyr)
+
+dataset <- procesar_dataset()
+contar_peticiones_url <- function(dataset, url_buscada = "/") {
+  # Filtrar las filas donde el Endpoint coincide con la URL buscada
+  conteo <- dataset %>%
+    filter(Endpoint == url_buscada) %>%
+    summarise(Total = n())
+  
+  # Retornar el total
+  return(conteo$Total)
+}
+total_peticiones <- contar_peticiones_url(dataset)
+```
+
+### Ejercicio 6
+
+``` r
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+source("procesar_dataset.R")
+
+#cargamos la librerias que vamos a usar
+library(readr)
+library(stringr)
+library(dplyr)
+
+dataset <- procesar_dataset()
 ```
