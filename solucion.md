@@ -96,35 +96,61 @@ existente para asignar un usuario nuevo a un grupo, utilizando su
 historial de compras. Se trata de inferir en la clasificación del
 usuario.
 
+base para los ejercicios: se creo un archivo central que se encarga de
+de procesar el dataset para que en cada ejercicio no se repita codigo
+
+``` r
+# procesar_dataset.R
+
+library(readr)
+library(stringr)
+library(dplyr)
+
+procesar_dataset <- function() {
+  # Leer el archivo CSV
+  dataset <- suppressWarnings(read_table(
+    "epa-http.csv",
+    col_names = FALSE,
+    na = c("", "NA", "NULL"),
+    col_types = cols(
+      X1 = col_character(),
+      X2 = col_character(),
+      X3 = col_character(),
+      X4 = col_character(),
+      X5 = col_character(),
+      X6 = col_integer(),
+      X7 = col_integer()
+    )
+  ))
+  
+  # Reemplazar valores NA por 0
+  dataset$X6[is.na(dataset$X6)] <- 0
+  dataset$X7[is.na(dataset$X7)] <- 0
+  
+  # Cambiar nombres de columnas
+  colnames(dataset) <- c("site", "Timestamp", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
+  
+  # Eliminar comillas dobles en la columna Método
+  dataset$Metodo <- str_replace_all(dataset$Metodo, '"', "")
+  
+  return(dataset)
+}
+```
+
 ejercicio 1
 
 ``` r
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+source("procesar_dataset.R")
+
 #cargamos la librerias que vamos a usar
 library(readr)
 library(stringr)
+library(dplyr)
 
+dataset <- procesar_dataset()
 # Leer el archivo CSV donde los separadores son espacios
-dataset <-  suppressWarnings(read_table(
-  "epa-http.csv",
-  col_names = FALSE,  # Nombres genéricos de columna
-  na = c("", "NA", "NULL"),   
-  col_types = cols( #decimos la columna que tipo de valor debe usar
-    X1 = col_character(), # Columna 1 como texto
-    X2 = col_character(), # Columna 2 como texto
-    X3 = col_character(), # Columna 3 como texto
-    X4 = col_character(), # Columna 4 como texto
-    X5 = col_character(), # Columna 5 como texto
-    X6 = col_integer(),   # Columna 6 como entero
-    X7 = col_integer()  # Columna 7 como texto
-  )
-))
-#colocamos valores por defecto a campos vacios 
-dataset$X6[is.na(dataset$X6)] <- 0
-dataset$X7[is.na(dataset$X7)] <- 0
-# Cambiar nombres de las columnas
-colnames(dataset) <- c("site", "Hora", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
 
-dataset$Metodo <- str_replace_all(dataset$Metodo, '"', "") 
 # Obtener el número de filas y columnas
 n_filas <- nrow(dataset)
 n_columnas <- ncol(dataset)
@@ -177,34 +203,15 @@ total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
 ejercicio 3
 
 ``` r
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+source("procesar_dataset.R")
+
 #cargamos la librerias que vamos a usar
 library(readr)
 library(stringr)
 library(dplyr)
 
-# Leer el archivo CSV donde los separadores son espacios
-dataset <-  suppressWarnings(read_table(
-  "epa-http.csv",
-  col_names = FALSE,  # Nombres genéricos de columna
-  na = c("", "NA", "NULL"),   
-  col_types = cols( #decimos la columna que tipo de valor debe usar
-    X1 = col_character(), # Columna 1 como texto
-    X2 = col_character(), # Columna 2 como texto
-    X3 = col_character(), # Columna 3 como texto
-    X4 = col_character(), # Columna 4 como texto
-    X5 = col_character(), # Columna 5 como texto
-    X6 = col_integer(),   # Columna 6 como entero
-    X7 = col_integer()  # Columna 7 como texto
-  )
-))
-#colocamos valores por defecto a campos vacios 
-dataset$X6[is.na(dataset$X6)] <- 0
-dataset$X7[is.na(dataset$X7)] <- 0
-
-# Cambiar nombres de las columnas
-colnames(dataset) <- c("site", "Hora", "Metodo", "Endpoint", "Protocolo", "Respuesta http", "bytes")
-#eliminar comillas doble
-dataset$Metodo <- str_replace_all(dataset$Metodo, '"', "") 
+dataset <- procesar_dataset()
 
 # Función para determinar la hora con mayor volumen de peticiones "GET"
 hora_mayor_volumen_get <- function(dataset) {
@@ -215,11 +222,11 @@ hora_mayor_volumen_get <- function(dataset) {
     filter(Metodo == "GET")
   
   # Extraer la hora de la columna Hora (formato [HH:MM:SS])
-  peticiones_get$Hora <- str_sub(peticiones_get$Hora, 5, 6)
+  peticiones_get$Timestamp <- str_sub(peticiones_get$Timestamp, 5, 6)
   
   # Contar la cantidad de peticiones por hora
   conteo_horas <- peticiones_get %>%
-    group_by(Hora) %>%
+    group_by(Timestamp) %>%
     summarise(Volumen = n()) %>%
     arrange(desc(Volumen)) %>%
     slice(1)  # Selecciona el primer registro, que es el de mayor volumen
