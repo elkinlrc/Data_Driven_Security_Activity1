@@ -233,7 +233,7 @@ total_paginas_edu <- nrow(data_edu)
 
 De todas las peticiones recibidas por el servidor cual es la hora en la que hay mayor volumen de peticiones HTTP de tipo "GET"?
 
-**Respuesta: En la hora ????.**
+**Respuesta: La hora 14 es la hora que tiene mayor volumen. El volumen es 4546 .**
 
 ```{r setup3, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)

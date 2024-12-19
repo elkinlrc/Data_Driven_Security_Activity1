@@ -121,7 +121,7 @@ estos.
 
 ###### **Qué podemos hacer para resolver el problema**
 
-Imagina que tenemos un gran archivo con todas las conexiones TCP que
+Suponiendo que tenemos un gran archivo con todas las conexiones TCP que
 realizan las computadoras de los empleados. Queremos descubrir si
 alguien habilitó un servicio web no autorizado. Esto es lo que haríamos
 paso a paso:
@@ -260,6 +260,10 @@ IPs, el Timestamp, la Petición (Tipo, URL y Protocolo), Código de
 respuesta, y Bytes de reply. 1. Cuales son las dimensiones del dataset
 cargado (número de filas y columnas) 2.Valor medio de la columna Bytes
 
+**Respuesta: Son 7 columnas y 47748 filas. Y la media de la columna
+Bytes es de 6531.45. Esto se almacena en las variables n_filas,
+n_columnas y media_bytes respectivamente.**
+
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 source("procesar_dataset.R")
@@ -285,6 +289,9 @@ media_bytes <- mean(dataset$bytes, na.rm = TRUE)
 De las diferentes IPs de origen accediendo al servidor, ¿cuantas
 pertenecen a una IP claramente educativa (que contenga “.edu”)?
 
+**Respuesta: 6524 URLs pertenecen a IPs educativas .edu. Esto se
+almacena en la variable total_paginas_edu.**
+
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 source("procesar_dataset.R")
@@ -301,18 +308,15 @@ dataset <- procesar_dataset()
 data_edu <- dataset[grepl("\\.edu", dataset$site), ]
 # Contar la cantidad de filas (páginas .edu)
 total_paginas_edu <- nrow(data_edu)
-
-#Codigo pregunta 4 Cantidad de bytes transmitidos en .edu de archivos .txt
-# Obtener las filas transmitidos como .txt en las paginas .edu 
-data_txt_edu <- dataset[grepl("\\.edu", dataset$site) & grepl("\\.txt$", dataset$Endpoint), ]
-# Calcular la suma de la columna 'bytes'
-total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
 ```
 
 ### Ejercicio 3
 
 De todas las peticiones recibidas por el servidor cual es la hora en la
 que hay mayor volumen de peticiones HTTP de tipo “GET”?
+
+**Respuesta: La hora 14 es la hora que tiene mayor volumen. El volumen
+es 4546 .**
 
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
@@ -358,6 +362,10 @@ De las peticiones hechas por instituciones educativas (.edu), ¿Cuantos
 bytes en total se han transmitido, en peticiones de descarga de ficheros
 de texto “.txt”?
 
+**Respuesta: Un total de 106806 bytes fueron transmitidos en las 3
+peticiones de descarga que hay de ficheros .txt. Esto se almacena en la
+variable total_bytes.**
+
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 source("procesar_dataset.R")
@@ -368,6 +376,12 @@ library(stringr)
 library(dplyr)
 
 dataset <- procesar_dataset()
+
+#Codigo pregunta 4 Cantidad de bytes transmitidos en .edu de archivos .txt
+# Obtener las filas transmitidos como .txt en las paginas .edu 
+data_txt_edu <- dataset[grepl("\\.edu", dataset$site) & grepl("\\.txt$", dataset$Endpoint), ]
+# Calcular la suma de la columna 'bytes'
+total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
 ```
 
 ### Ejercicio 5
@@ -375,6 +389,9 @@ dataset <- procesar_dataset()
 Si separamos la petición en 3 partes (Tipo, URL, Protocolo), usando
 str_split y el separador ” ” (espacio), ¿cuantas peticiones buscan
 directamente la URL = “/”?
+
+**Respuesta: Un total de 2382 peticiones buscan la URL “/”. Esto se
+almacena en la variable total_peticiones.**
 
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
@@ -403,6 +420,9 @@ total_peticiones <- contar_peticiones_url(dataset)
 Aprovechando que hemos separado la petición en 3 partes (Tipo, URL,
 Protocolo) ¿Cuantas peticiones NO tienen como protocolo “HTTP/0.2”?
 
+**Respuesta: Un total de 1 peticion NO tiene como protocolo el HTTP/0.2.
+Esto se almacena en la variable cantidad_no_http_02**
+
 ``` r
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 source("procesar_dataset.R")
@@ -413,4 +433,13 @@ library(stringr)
 library(dplyr)
 
 dataset <- procesar_dataset()
+
+#Codigo pregunta 6 peticiones que no tienen como protocolo HTTP/0.2
+
+# Eliminar comillas adicionales en la columna Protocolo
+dataset$Protocolo <- gsub('"', '', dataset$Protocolo)
+# Filtrar las filas que NO tienen el protocolo "HTTP/0.2"
+no_http_02 <- subset(dataset, Protocolo != "HTTP/0.2")
+# Contar el número de filas que cumplen con esta condición
+cantidad_no_http_02 <- nrow(no_http_02)
 ```
