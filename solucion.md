@@ -420,7 +420,7 @@ total_peticiones <- contar_peticiones_url(dataset)
 Aprovechando que hemos separado la petición en 3 partes (Tipo, URL,
 Protocolo) ¿Cuantas peticiones NO tienen como protocolo “HTTP/0.2”?
 
-**Respuesta: Un total de 1 peticion NO tiene como protocolo el HTTP/0.2.
+**Respuesta: Un total de 1 peticion tiene como protocolo el HTTP/0.2.
 Esto se almacena en la variable cantidad_no_http_02**
 
 ``` r
