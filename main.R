@@ -71,3 +71,32 @@ cat("1. Valor medio de la columna 'bytes':", media_bytes, "\n")
 cat("3. La hora", hora$Timestamp, "es la hora que tiene mayor volumen. El volumen es", hora$Volumen, "\n")
 cat("5. Número de peticiones a la URL '/':", total_peticiones, "\n")
 
+#cargamos la librerias que vamos a usar
+library(readr)
+library(stringr)
+library(dplyr)
+
+dataset <- procesar_dataset()
+
+#Codigo pregunta 2 Cantidad de ips o filas con .edu
+# Obtener todos los IP educativos .edu 
+data_edu <- dataset[grepl("\\.edu", dataset$site), ]
+# Contar la cantidad de filas (páginas .edu)
+total_paginas_edu <- nrow(data_edu)
+
+
+#Codigo pregunta 4 Cantidad de bytes transmitidos en .edu de archivos .txt
+# Obtener las filas transmitidos como .txt en las paginas .edu 
+data_txt_edu <- dataset[grepl("\\.edu", dataset$site) & grepl("\\.txt$", dataset$Endpoint), ]
+# Calcular la suma de la columna 'bytes'
+total_bytes <- sum(data_txt_edu$bytes, na.rm = TRUE)
+
+
+#Codigo pregunta 6 peticiones que no tienen como protocolo HTTP/0.2
+
+# Eliminar comillas adicionales en la columna Protocolo
+dataset$Protocolo <- gsub('"', '', dataset$Protocolo)
+# Filtrar las filas que NO tienen el protocolo "HTTP/0.2"
+no_http_02 <- subset(dataset, Protocolo != "HTTP/0.2")
+# Contar el número de filas que cumplen con esta condición
+cantidad_no_http_02 <- nrow(no_http_02)
